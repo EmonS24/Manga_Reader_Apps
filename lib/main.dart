@@ -3,7 +3,7 @@ import 'features/main/view/home_page.dart';
 import 'features/bookmarks/view/bookmarks_page.dart';
 import 'features/all_books/view/all_books_page.dart';
 import 'features/user/view/user_profile_page.dart'; // Impor halaman profil user
-import 'core/constant/app_constants.dart';
+import 'core/constant/colors.dart';
 
 void main() {
   runApp(MangaReaderApp());

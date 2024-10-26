@@ -7,8 +7,7 @@ class HomeViewModel {
 
   // Mengembalikan Manga terakhir yang dibaca
   Manga getLastReadManga() {
-    // Ambil manga terakhir dibaca dari repository
-    return bookRepository.fetchLastReadManga();
+    return bookRepository.fetchLastReadManga(); // or however you fetch it
   }
 
   // Mengembalikan daftar Manga yang di-bookmark

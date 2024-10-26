@@ -6,3 +6,5 @@ class AppColors {
   static const Color textColor = Color(0xFFF8F8F8); // Putih
   static const Color subTextColor = Color(0xFFC1C1C1); // Abu-abu
 }
+
+

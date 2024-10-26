@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:manga/core/constant/app_constants.dart';
+import 'package:manga/core/constant/colors.dart';
 import 'package:manga/core/utils/helpers.dart';
 
 class BookCard extends StatelessWidget {
