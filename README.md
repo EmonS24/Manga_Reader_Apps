@@ -6,8 +6,7 @@ dribble : https://dribbble.com/shots/24002225-Manga-App-UI
 
 Apps Test in 1:28
 
-[Demo Comic Reader Apps]([https://github.com/user-attachments/assets/a0b758bc-b1ca-4d4f-921d-f01fe62c068d](https://github.com/user-attachments/assets/ec1f1b2c-e8bf-4f54-8714-da06a93f76a9))
-
+[Demo Comic Reader Apps](https://github.com/user-attachments/assets/8e49dc5a-8f16-49f0-a2a3-afcaa6207597)
 
 ![Screenshot 2024-11-01 195531](https://github.com/user-attachments/assets/00d4af5f-b305-421f-9e39-ffa87c59b5ae)
 
