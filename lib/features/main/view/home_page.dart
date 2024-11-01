@@ -1,3 +1,4 @@
+// lib/features/main/view/home_page.dart
 import 'package:flutter/material.dart';
 import 'package:manga/core/constant/colors.dart';
 import 'package:manga/features/main/view_model/home_viewmodel.dart';
@@ -8,7 +9,16 @@ import 'package:manga/data/models/manga.dart';
 import 'package:manga/features/manga_detail/view/manga_detail_page.dart';
 
 class HomePage extends StatelessWidget {
-  final HomeViewModel homeViewModel = HomeViewModel();
+  final HomeViewModel homeViewModel;
+  final List<Manga> bookmarkedManga;
+  final List<Manga> allManga;
+
+  HomePage({
+    Key? key,
+    required this.homeViewModel,
+    required this.bookmarkedManga,
+    required this.allManga,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +35,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildContinueReadingSection(),
+              _buildContinueReadingSection(context),
               _buildForYouSection(context),
               _buildAllBooksSection(context),
             ],
@@ -35,7 +45,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Widget untuk Search Bar
   Widget _buildSearchBar() {
     return TextField(
       decoration: InputDecoration(
@@ -53,10 +62,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Widget untuk Continue Reading Section
-  Widget _buildContinueReadingSection() {
-    // Fetch the last read manga from the repository
-    final manga = homeViewModel.getLastReadManga(); // Ensure you have this method in your HomeViewModel
+  Widget _buildContinueReadingSection(BuildContext context) {
+    final manga = homeViewModel.lastReadManga;
+
+    if (manga == null) {
+      return Container();
+    }
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -66,43 +77,62 @@ class HomePage extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         padding: EdgeInsets.all(16),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Cover Image
-            Container(
-              width: 100, // Set your desired width
-              height: 150, // Set your desired height
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: AssetImage(manga.coverImage), // Use coverImage from the manga model
-                  fit: BoxFit.cover,
+            Row(
+              children: [
+                Container(
+                  width: 100,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image: AssetImage(manga.coverImage),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(width: 16), // Space between image and text
-            // Text Section
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Continue Reading',
-                    style: TextStyle(color: AppColors.textColor, fontSize: 18),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      SizedBox(height: 10),
+                      Text(
+                        manga.title,
+                        style: TextStyle(color: AppColors.textColor, fontSize: 24),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Chapter: ${manga.chapter}',
+                        style: TextStyle(color: AppColors.subTextColor),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.secondaryColor,
+                          foregroundColor: AppColors.mainColor,
+                        ),
+                        onPressed: () {
+                          // Navigate to ChapterDetailPage with current chapter info
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChapterDetailPage(
+                                chapterTitle: 'Chapter ${manga.chapter}: ${manga.title}',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text("Continue"),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    manga.title,
-                    style: TextStyle(color: AppColors.textColor, fontSize: 24),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Chapter: ${manga.chapter}',
-                    style: TextStyle(color: AppColors.subTextColor),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
@@ -110,7 +140,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Widget untuk For You Section
+
+
   Widget _buildForYouSection(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -125,7 +156,12 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => BookmarksPage()),
+                    MaterialPageRoute(
+                      builder: (context) => BookmarksPage(
+                        bookmarkedManga: bookmarkedManga,
+                        homeViewModel: homeViewModel,
+                      ),
+                    ),
                   );
                 },
                 child: Text('See All', style: TextStyle(color: AppColors.secondaryColor)),
@@ -134,19 +170,34 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 10),
           SizedBox(
-            height: 300, // Width area scroll for card
+            height: 300,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: homeViewModel.getBookmarkedManga().length,
+              itemCount: bookmarkedManga.length,
               itemBuilder: (context, index) {
-                final manga = homeViewModel.getBookmarkedManga()[index];
-                return BookCard(
-                  title: manga.title,
-                  chapter: manga.chapter,
-                  coverImage: manga.coverImage, // Pass coverImage to BookCard
-                  onTap: () {
-                    _openMangaDetail(context, manga);
-                  },
+                final manga = bookmarkedManga[index];
+                return Container(
+                  width: 200,
+                  child: BookCard(
+                    title: manga.title,
+                    chapter: 'Chapter: ${manga.chapter}',
+                    coverImage: manga.coverImage,
+                    isBookmarked: manga.isBookmarked,
+                    onBookmarkToggle: () {
+                      homeViewModel.toggleBookmark(manga);
+                    },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MangaDetailPage(
+                            manga: manga,
+                            initialChapterIndex: manga.chapter - 1, // Pass initialChapterIndex
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             ),
@@ -156,7 +207,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Widget untuk All Books Section
   Widget _buildAllBooksSection(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -171,7 +221,9 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AllBooksPage()),
+                    MaterialPageRoute(
+                      builder: (context) => AllBooksPage(allManga: allManga),
+                    ),
                   );
                 },
                 child: Text('See All', style: TextStyle(color: AppColors.secondaryColor)),
@@ -180,19 +232,34 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 10),
           SizedBox(
-            height: 300, // Width area scroll for card
+            height: 300,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: homeViewModel.getAllBooks().length,
+              itemCount: allManga.length,
               itemBuilder: (context, index) {
-                final manga = homeViewModel.getAllBooks()[index];
-                return BookCard(
-                  title: manga.title,
-                  chapter: manga.chapter,
-                  coverImage: manga.coverImage, // Pass coverImage to BookCard
-                  onTap: () {
-                    _openMangaDetail(context, manga);
-                  },
+                final manga = allManga[index];
+                return Container(
+                  width: 200,
+                  child: BookCard(
+                    title: manga.title,
+                    chapter: 'Chapter: ${manga.chapter}',
+                    coverImage: manga.coverImage,
+                    isBookmarked: manga.isBookmarked,
+                    onBookmarkToggle: () {
+                      homeViewModel.toggleBookmark(manga);
+                    },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MangaDetailPage(
+                            manga: manga,
+                            initialChapterIndex: manga.chapter - 1, // Pass initialChapterIndex
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             ),
@@ -202,11 +269,4 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Fungsi untuk membuka halaman detail manga
-  void _openMangaDetail(BuildContext context, Manga manga) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => MangaDetailPage(manga: manga)),
-    );
-  }
 }

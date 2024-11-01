@@ -1,67 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:manga/core/constant/colors.dart';
+import 'package:manga/core/constant/colors.dart'; // Ensure you have this import for your color definitions
 
-class BookCard extends StatelessWidget {
+class BookCard extends StatefulWidget {
   final String title;
-  final String coverImage; // Add coverImage parameter
-  final int chapter;
+  final String chapter;
+  final String coverImage;
+  final bool isBookmarked;
+  final VoidCallback onBookmarkToggle;
   final VoidCallback onTap;
 
   const BookCard({
     Key? key,
     required this.title,
-    required this.coverImage, // Add this parameter
     required this.chapter,
+    required this.coverImage,
+    required this.isBookmarked,
+    required this.onBookmarkToggle,
     required this.onTap,
   }) : super(key: key);
 
   @override
+  _BookCardState createState() => _BookCardState();
+}
+
+class _BookCardState extends State<BookCard> {
+  late bool _isBookmarked;
+
+  @override
+  void initState() {
+    super.initState();
+    _isBookmarked = widget.isBookmarked; // Initialize the local state
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 150,
-        margin: EdgeInsets.only(right: 10),
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
+      onTap: widget.onTap,
+      child: Card(
+        color: AppColors.mainColor, // Use your main color here
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Book cover
+            // Adjusting the height of the cover image
             Container(
-              height: 250,
+              height: 200, // Increased height for the image
+              width: double.infinity, // Full width
               decoration: BoxDecoration(
-                color: Colors.grey[700],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  coverImage, // Use coverImage here
+                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                image: DecorationImage(
+                  image: AssetImage(widget.coverImage),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            SizedBox(height: 8),
-            // Book title
-            Text(
-              title,
-              style: TextStyle(
-                color: AppColors.textColor,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(height: 4),
-            // Chapter information
-            Text(
-              'Chapter $chapter',
-              style: TextStyle(
-                color: AppColors.subTextColor,
-                fontSize: 12,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.title,
+                        style: TextStyle(color: AppColors.textColor, fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        widget.chapter,
+                        style: TextStyle(color: AppColors.subTextColor, fontSize: 14),
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                      color: AppColors.secondaryColor, // Use your secondary color for the icon
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isBookmarked = !_isBookmarked; // Toggle the bookmark state
+                      });
+                      widget.onBookmarkToggle(); // Call the function to toggle the bookmark in the view model
+                    },
+                  ),
+                ],
               ),
             ),
           ],
