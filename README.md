@@ -8,14 +8,18 @@ Apps Test in 1:28
 
 [Demo Comic Reader Apps](https://github.com/user-attachments/assets/8e49dc5a-8f16-49f0-a2a3-afcaa6207597)
 
-![Screenshot 2024-11-01 195531](https://github.com/user-attachments/assets/00d4af5f-b305-421f-9e39-ffa87c59b5ae)
+![Screenshot 2024-11-01 214302](https://github.com/user-attachments/assets/cf266960-dd7e-4e7f-8547-92bd544fbba3)
 
-![Screenshot 2024-11-01 195539](https://github.com/user-attachments/assets/ceec7546-599e-4c29-b232-b8d7bd352e71)
+![Screenshot 2024-11-01 214310](https://github.com/user-attachments/assets/8efd2cdd-ec9a-41fb-b860-e6674045b451)
 
-![Screenshot 2024-11-01 195544](https://github.com/user-attachments/assets/805e5b68-f916-428b-a4af-176d51122410)
+![Screenshot 2024-11-01 214314](https://github.com/user-attachments/assets/744c116a-4788-4343-880d-414f4f5585e4)
 
-![Screenshot 2024-11-01 195549](https://github.com/user-attachments/assets/dfd48479-d1df-4376-ad55-4843d7a7723a)
+![Screenshot 2024-11-01 214319](https://github.com/user-attachments/assets/9045dd62-a681-443f-ba1f-704c13c0b599)
 
-![Screenshot 2024-11-01 195605](https://github.com/user-attachments/assets/47b3b876-e408-44a5-aed7-de9c18f27b57)
+![Screenshot 2024-11-01 214323](https://github.com/user-attachments/assets/e2bf50bf-ce33-4746-9a84-7ae65f8073ff)
 
-![Screenshot 2024-11-01 195611](https://github.com/user-attachments/assets/fc68e7c7-5231-4c97-9857-5aba903dd1c8)
+![Screenshot 2024-11-01 214330](https://github.com/user-attachments/assets/096a4de7-34a8-4631-8ff6-b13492358882)
+
+![Screenshot 2024-11-01 214336](https://github.com/user-attachments/assets/ab751737-d515-45e6-b2fd-75add77c5ed2)
+
+![Screenshot 2024-11-01 214357](https://github.com/user-attachments/assets/e493701d-5801-4440-9d10-271e6925d126)
