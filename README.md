@@ -1,10 +1,10 @@
-# manga
+# Comic Reader Apps
 
-Name : Manga Reader Apps
+Name : Comic Reader Apps
 
 dribble : https://dribbble.com/shots/24002225-Manga-App-UI
 
-[Demo Manga Reader Apps](https://github.com/user-attachments/assets/a0b758bc-b1ca-4d4f-921d-f01fe62c068d)
+[Demo Comic Reader Apps](https://github.com/user-attachments/assets/a0b758bc-b1ca-4d4f-921d-f01fe62c068d)
 
 
 ![Screenshot 2024-11-01 195531](https://github.com/user-attachments/assets/00d4af5f-b305-421f-9e39-ffa87c59b5ae)
